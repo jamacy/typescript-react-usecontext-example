@@ -2,15 +2,15 @@ import * as React from "react";
 import { render } from "react-dom";
 
 import CtxProvider from "./Context";
-import A from "./A";
-import B from "./B";
+import TextComp from "./text";
+import Wrapper from "./wrapper";
 
 function App() {
   return (
     <div className="App">
       <CtxProvider>
-        <A />
-        <B />
+        <TextComp />
+        <Wrapper />
       </CtxProvider>
     </div>
   );

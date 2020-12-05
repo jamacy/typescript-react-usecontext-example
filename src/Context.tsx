@@ -1,29 +1,44 @@
-import * as React from "react";
+import React , { useState ,useCallback } from "react";
 
-type SetValue = (value: any) => void;
-interface AppContextInterface {
-  value: any;
-  setValue: SetValue;
-  valueA: any;
-  setValueA: SetValue;
+type IAppStore = {
+  count:number,
+  increment:()=>void,
+  decrement:()=>void,
+  getData:()=>void
 }
 
-export const SimpleCtx = React.createContext<AppContextInterface | null>(null);
+
+export const AppCtx = React.createContext({} as IAppStore);
 
 const CtxProvider: React.FC = props => {
-  const [value, setValue] = React.useState(null);
-  const [valueA, setValueA] = React.useState(null);
+  const [count , setCount] = useState<number>(0)
+
+
+  const getData = () =>{
+    console.log("get data")
+    new Promise<number>((resolve)=>{
+      setTimeout(()=>{
+        resolve(1)
+      })
+    })
+  }
+
+  const increment = useCallback(() => setCount(count=>count+1),[count])
+  const decrement = useCallback(() => setCount(count=>count-1),[count])
+
+
+  let values = {
+    count,
+    increment,
+    decrement,
+    getData
+  }
   return (
-    <SimpleCtx.Provider
-      value={{
-        value: value,
-        setValue: setValue,
-        valueA,
-        setValueA
-      }}
+    <AppCtx.Provider
+      value={values}
     >
       {props.children}
-    </SimpleCtx.Provider>
+    </AppCtx.Provider>
   );
 };
 
